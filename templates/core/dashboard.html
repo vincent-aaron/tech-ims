@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TechIMS Dashboard</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        .card { display: inline-block; padding: 20px; margin: 10px; border: 1px solid #ccc; border-radius: 10px; }
+        .row { margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+    </style>
+</head>
+<body>
+
+<h1>TechIMS Dashboard</h1>
+
+<div class="row">
+    <div class="card">Total Equipment: {{ total_equipment }}</div>
+    <div class="card">Available: {{ available }}</div>
+    <div class="card">Borrowed: {{ borrowed }}</div>
+    <div class="card">Damaged: {{ damaged }}</div>
+</div>
+
+<h2>Recent Borrow Activity</h2>
+
+<table>
+    <tr>
+        <th>Equipment</th>
+        <th>User</th>
+        <th>Date Borrowed</th>
+        <th>Status</th>
+    </tr>
+
+    {% for record in recent_borrows %}
+    <tr>
+        <td>{{ record.equipment.name }}</td>
+        <td>{{ record.user.username }}</td>
+        <td>{{ record.date_borrowed }}</td>
+        <td>
+            {% if record.is_returned %}
+                Returned
+            {% else %}
+                Borrowed
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

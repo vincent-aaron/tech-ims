@@ -1,0 +1,29 @@
+<h1>Equipment List</h1>
+
+<a href="/equipment/add/">Add Equipment</a>
+
+<form method="GET">
+    <input type="text" name="q" placeholder="Search equipment">
+    <button type="submit">Search</button>
+</form>
+
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Serial</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for item in equipments %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.serial_number }}</td>
+        <td>{{ item.status }}</td>
+        <td>
+            <a href="/equipment/edit/{{ item.id }}/">Edit</a>
+            <a href="/equipment/delete/{{ item.id }}/">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

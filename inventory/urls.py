@@ -1,7 +1,14 @@
 from django.urls import path
-from .views import admin_dashboard, staff_dashboard
+from .views import (
+    equipment_list,
+    add_equipment,
+    edit_equipment,
+    delete_equipment
+)
 
 urlpatterns = [
-    path('admin-dashboard/', admin_dashboard),
-    path('staff-dashboard/', staff_dashboard),
+    path('equipment/', equipment_list, name='equipment_list'),
+    path('equipment/add/', add_equipment, name='add_equipment'),
+    path('equipment/edit/<int:pk>/', edit_equipment, name='edit_equipment'),
+    path('equipment/delete/<int:pk>/', delete_equipment, name='delete_equipment'),
 ]
