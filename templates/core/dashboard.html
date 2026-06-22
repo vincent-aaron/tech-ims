@@ -1,51 +1,69 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>TechIMS Dashboard</title>
-    <style>
-        body { font-family: Arial; margin: 20px; }
-        .card { display: inline-block; padding: 20px; margin: 10px; border: 1px solid #ccc; border-radius: 10px; }
-        .row { margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-    </style>
-</head>
-<body>
+{% extends 'base/base.html' %}
 
-<h1>TechIMS Dashboard</h1>
+{% block content %}
 
-<div class="row">
-    <div class="card">Total Equipment: {{ total_equipment }}</div>
-    <div class="card">Available: {{ available }}</div>
-    <div class="card">Borrowed: {{ borrowed }}</div>
-    <div class="card">Damaged: {{ damaged }}</div>
+<h1 class="text-2xl font-bold mb-6">Dashboard</h1>
+
+<!-- CARDS -->
+<div class="grid grid-cols-4 gap-4 mb-8">
+
+    <div class="bg-blue-500 text-white p-5 rounded-xl shadow">
+        <p class="text-sm">Total Equipment</p>
+        <p class="text-3xl font-bold">{{ total_equipment }}</p>
+    </div>
+
+    <div class="bg-green-500 text-white p-5 rounded-xl shadow">
+        <p class="text-sm">Available</p>
+        <p class="text-3xl font-bold">{{ available }}</p>
+    </div>
+
+    <div class="bg-yellow-500 text-white p-5 rounded-xl shadow">
+        <p class="text-sm">Borrowed</p>
+        <p class="text-3xl font-bold">{{ borrowed }}</p>
+    </div>
+
+    <div class="bg-red-500 text-white p-5 rounded-xl shadow">
+        <p class="text-sm">Damaged</p>
+        <p class="text-3xl font-bold">{{ damaged }}</p>
+    </div>
+
 </div>
 
-<h2>Recent Borrow Activity</h2>
+<!-- TABLE -->
+<div class="bg-white rounded-xl shadow p-4">
 
-<table>
-    <tr>
-        <th>Equipment</th>
-        <th>User</th>
-        <th>Date Borrowed</th>
-        <th>Status</th>
-    </tr>
+    <h2 class="text-xl font-semibold mb-4">Recent Activity</h2>
 
-    {% for record in recent_borrows %}
-    <tr>
-        <td>{{ record.equipment.name }}</td>
-        <td>{{ record.user.username }}</td>
-        <td>{{ record.date_borrowed }}</td>
-        <td>
-            {% if record.is_returned %}
-                Returned
-            {% else %}
-                Borrowed
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+    <table class="w-full text-sm">
 
-</body>
-</html>
+        <thead class="text-left border-b">
+            <tr>
+                <th class="py-2">Equipment</th>
+                <th>User</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for record in recent_borrows %}
+            <tr class="border-b">
+                <td class="py-2">{{ record.equipment.name }}</td>
+                <td>{{ record.user.username }}</td>
+                <td>{{ record.date_borrowed }}</td>
+                <td>
+                    {% if record.is_returned %}
+                        <span class="text-green-600 font-semibold">Returned</span>
+                    {% else %}
+                        <span class="text-yellow-600 font-semibold">Borrowed</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

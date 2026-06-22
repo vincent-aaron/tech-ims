@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Equipment
 from .forms import EquipmentForm
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from .models import Equipment, Category, Supplier, BorrowRecord
 
 @login_required
 def equipment_list(request):
@@ -63,3 +65,43 @@ def delete_equipment(request, pk):
     return render(request, 'inventory/equipment_delete.html', {
         'equipment': equipment
     })
+
+@staff_only
+@login_required
+def borrow_equipment(request, pk):
+    equipment = Equipment.objects.get(id=pk)
+
+    if equipment.quantity > 0:
+        BorrowRecord.objects.create(
+            equipment=equipment,
+            user=request.user,
+            quantity=1,
+            is_returned=False
+        )
+
+        equipment.quantity -= 1
+        equipment.status = 'borrowed'
+        equipment.save()
+
+    return redirect('equipment_list')
+
+@staff_only
+@login_required
+def return_equipment(request, pk):
+    equipment = Equipment.objects.get(id=pk)
+
+    borrow = BorrowRecord.objects.filter(
+        equipment=equipment,
+        is_returned=False
+    ).last()
+
+    if borrow:
+        borrow.is_returned = True
+        borrow.date_returned = timezone.now()
+        borrow.save()
+
+        equipment.quantity += 1
+        equipment.status = 'available'
+        equipment.save()
+
+    return redirect('equipment_list')

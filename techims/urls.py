@@ -18,12 +18,17 @@ from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
 
+from inventory.views import borrow_equipment, return_equipment
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('inventory.urls')),
     path('', include('core.urls')),
+    path('equipment/borrow/<int:pk>/', borrow_equipment),
+    path('equipment/return/<int:pk>/', return_equipment),
+    path('reports/', include('reports.urls')),
 
     # AUTH
     path('login/', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]

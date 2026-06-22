@@ -1,29 +1,78 @@
-<h1>Equipment List</h1>
+{% extends 'base/base.html' %}
 
-<a href="/equipment/add/">Add Equipment</a>
+{% block content %}
 
-<form method="GET">
-    <input type="text" name="q" placeholder="Search equipment">
-    <button type="submit">Search</button>
-</form>
+<h1 class="text-2xl font-bold mb-4">Equipment</h1>
 
-<table border="1">
-    <tr>
-        <th>Name</th>
-        <th>Serial</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
+<a href="/equipment/add/"
+   class="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block">
+   + Add Equipment
+</a>
+
+<table class="w-full bg-white rounded shadow text-sm">
+
+    <thead class="bg-gray-200 text-left">
+        <tr>
+            <th class="p-3">Name</th>
+            <th>Serial</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
 
     {% for item in equipments %}
-    <tr>
-        <td>{{ item.name }}</td>
+    <tr class="border-b">
+        <td class="p-3">{{ item.name }}</td>
         <td>{{ item.serial_number }}</td>
-        <td>{{ item.status }}</td>
         <td>
-            <a href="/equipment/edit/{{ item.id }}/">Edit</a>
-            <a href="/equipment/delete/{{ item.id }}/">Delete</a>
+            <span class="px-2 py-1 rounded text-white
+                {% if item.status == 'available' %} bg-green-500
+                {% elif item.status == 'borrowed' %} bg-yellow-500
+                {% else %} bg-red-500
+                {% endif %}
+            ">
+                {{ item.status }}
+            </span>
+        </td>
+
+        <td class="space-x-2">
+
+            <!-- BORROW -->
+            <a href="/equipment/borrow/{{ item.id }}/"
+            class="text-blue-600 hover:underline">
+            Borrow
+            </a>
+
+            <!-- RETURN -->
+            <a href="/equipment/return/{{ item.id }}/"
+            class="text-green-600 hover:underline">
+            Return
+            </a>
+
+            {% if user.role == 'admin' %}
+
+                <!-- EDIT -->
+                <a href="/equipment/edit/{{ item.id }}/"
+                class="text-yellow-600 hover:underline">
+                Edit
+                </a>
+
+                <!-- DELETE -->
+                <a href="/equipment/delete/{{ item.id }}/"
+                class="text-red-600 hover:underline">
+                Delete
+                </a>
+
+            {% endif %}
+
         </td>
     </tr>
     {% endfor %}
+
+    </tbody>
+
 </table>
+
+{% endblock %}

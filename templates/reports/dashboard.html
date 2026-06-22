@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+<h2>Reports</h2>
+
+<h4>Equipment List</h4>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Quantity</th>
+    </tr>
+
+    {% for item in equipment %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.status }}</td>
+        <td>{{ item.quantity }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h4>Borrow History</h4>
+
+<table class="table table-striped">
+    <tr>
+        <th>Equipment</th>
+        <th>User</th>
+        <th>Borrowed</th>
+        <th>Returned</th>
+    </tr>
+
+    {% for b in borrows %}
+    <tr>
+        <td>{{ b.equipment.name }}</td>
+        <td>{{ b.user.username }}</td>
+        <td>{{ b.date_borrowed }}</td>
+        <td>{{ b.date_returned }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TechIMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body class="bg-gray-100">
+
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-gray-900 text-white p-5">
+
+        <h1 class="text-2xl font-bold mb-8">TechIMS</h1>
+
+        <div class="mt-10 border-t border-gray-700 pt-4">
+
+            <p class="text-sm text-gray-300 mb-2">
+                {{ user.username }} 
+            </p>
+            <p class="text-sm text-gray-500">
+                ({{ user.role }})
+            </p>
+
+        </div>
+
+        <div class="mt-5 border-t border-gray-700 pt-4">
+
+            <nav class="space-y-2">
+
+                <a href="/" class="block px-3 py-2 rounded hover:bg-gray-700">Dashboard</a>
+                <a href="/equipment/" class="block px-3 py-2 rounded hover:bg-gray-700">Equipment</a>
+                <a href="/equipment/add/" class="block px-3 py-2 rounded hover:bg-gray-700">Add Item</a>
+                <a href="/reports/" class="block px-3 py-2 rounded hover:bg-gray-700">Reports</a>
+
+            </nav>
+
+        </div>
+
+        <div class="mt-5 border-t border-gray-700 pt-4">
+
+            <form method="POST" action="/logout/">
+                {% csrf_token %}
+                <button class="text-red-400 hover:text-red-300">
+                    Logout
+                </button>
+            </form>
+
+        </div>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 p-6">
+
+        {% block content %}{% endblock %}
+
+    </main>
+
+</div>
+
+</body>
+</html>
