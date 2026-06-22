@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Category, Supplier, Equipment, BorrowRecord
 
-# Register your models here.
+
+admin.site.register(Category)
+admin.site.register(Supplier)
+admin.site.register(Equipment)
+admin.site.register(BorrowRecord)

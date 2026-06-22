@@ -1,3 +1,12 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from accounts.decorators import admin_only, staff_only
 
-# Create your views here.
+
+@admin_only
+def admin_dashboard(request):
+    return HttpResponse("Admin Dashboard")
+
+
+@staff_only
+def staff_dashboard(request):
+    return HttpResponse("Staff Dashboard")
